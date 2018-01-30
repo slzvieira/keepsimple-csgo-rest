@@ -1,4 +1,4 @@
-package br.com.rgflorencio.boot;
+package br.com.slzvieira.boot;
 
 import junit.framework.Test;
 import junit.framework.TestCase;
