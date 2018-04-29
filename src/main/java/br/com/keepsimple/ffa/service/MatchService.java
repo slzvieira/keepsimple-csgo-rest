@@ -6,10 +6,13 @@
  */
 package br.com.keepsimple.ffa.service;
 
+import java.time.LocalDate;
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
+import java.util.stream.Collectors;
 
 import org.springframework.stereotype.Service;
 
@@ -88,10 +91,35 @@ public class MatchService {
         return match;
     }
 
+    /**
+     * TODO DOCUMENT ME
+     * @param kill
+     */
     public void saveKill(Kill kill) {
         System.out.println("##############################");
         System.out.println("###### Registrando Kill ######");
         System.out.println("##############################");
         System.out.println(kill.getMatch() + " - " + kill.getKilltime() + " - " + kill.getKiller() + " - " + kill.getKilled() + " - " + kill.getWeapon());
+    }
+
+    /**
+     * TODO DOCUMENT ME
+     * @param matchDate
+     * @return
+     */
+    public List<Player> findPlayersByMatchDate(LocalDate matchDate) {
+        return findAllPlayers().stream().filter(p -> p.getKill() < 10).collect(Collectors.toList());
+    }
+
+    public List<Player> findAllPlayers() {
+
+        List<Player> list = new ArrayList<>();
+
+        list.add(new Player("Manuel", 18, 15));
+        list.add(new Player("Joaquim", 5, 23));
+        list.add(new Player("Maria", 4, 25));
+        list.add(new Player("Adolfo", 4, 19));
+        
+        return list;
     }
 }
