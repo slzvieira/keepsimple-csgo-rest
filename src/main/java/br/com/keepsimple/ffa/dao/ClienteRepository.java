@@ -1,4 +1,4 @@
-package br.com.slzvieira.boot.dao;
+package br.com.keepsimple.ffa.dao;
 
 import org.springframework.stereotype.Repository;
 

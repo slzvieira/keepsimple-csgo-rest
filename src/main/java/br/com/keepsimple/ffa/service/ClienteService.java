@@ -1,4 +1,4 @@
-package br.com.slzvieira.boot.service;
+package br.com.keepsimple.ffa.service;
 
 import java.util.Collection;
 import java.util.HashMap;
@@ -6,7 +6,7 @@ import java.util.Map;
 
 import org.springframework.stereotype.Service;
 
-import br.com.slzvieira.boot.model.Cliente;
+import br.com.keepsimple.ffa.dto.Cliente;
 
 @Service
 public class ClienteService {

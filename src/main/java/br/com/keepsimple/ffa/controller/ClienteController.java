@@ -1,4 +1,4 @@
-package br.com.slzvieira.boot.controller;
+package br.com.keepsimple.ffa.controller;
 
 import java.util.Collection;
 
@@ -12,8 +12,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
-import br.com.slzvieira.boot.model.Cliente;
-import br.com.slzvieira.boot.service.ClienteService;
+import br.com.keepsimple.ffa.dto.Cliente;
+import br.com.keepsimple.ffa.service.ClienteService;
 
 @RestController
 public class ClienteController {

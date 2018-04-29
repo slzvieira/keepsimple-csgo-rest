@@ -1,11 +1,11 @@
 /**
  * 
  */
-package br.com.slzvieira.boot;
+package br.com.keepsimple.ffa;
 
 import org.springframework.web.client.RestTemplate;
 
-import br.com.slzvieira.boot.model.Cliente;
+import br.com.keepsimple.ffa.dto.Cliente;
 
 /**
  * @author slvieira

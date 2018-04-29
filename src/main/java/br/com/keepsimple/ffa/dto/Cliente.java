@@ -1,4 +1,4 @@
-package br.com.slzvieira.boot.model;
+package br.com.keepsimple.ffa.dto;
 
 import org.springframework.boot.autoconfigure.domain.EntityScan;
 

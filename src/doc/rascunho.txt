@@ -1,0 +1,13 @@
+match (Partida)
+ - id
+ - begin
+ - end
+ - playerList
+Kill
+ - killTime
+ - matchId
+ - killer
+ - killer
+ - weapon
+Jogador
+Arma

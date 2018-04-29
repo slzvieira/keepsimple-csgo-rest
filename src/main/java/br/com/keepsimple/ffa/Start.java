@@ -1,7 +1,7 @@
 /**
  * 
  */
-package br.com.slzvieira.boot;
+package br.com.keepsimple.ffa;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
