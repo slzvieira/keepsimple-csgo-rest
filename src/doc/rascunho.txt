@@ -18,7 +18,7 @@ Arma
     e kills conforme arquivos disponibilizados
     (não é necessário disponibilizar serviço)
  
-2 - GET /players
++2 - GET /players
     Visualizar ranking de jogadores (Lista ordenada de jogadores)
     nome do jogador
     quantidade de kills
@@ -33,7 +33,7 @@ Arma
     arma
     id da partida
  
-4 - GET /weapons
++4 - GET /weapons
     Visualizar ranking de armas (Lista ordenada de armas)
     nome da arma
     quantidade de kills com a arma

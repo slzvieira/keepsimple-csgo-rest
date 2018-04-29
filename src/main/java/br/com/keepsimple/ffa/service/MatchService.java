@@ -7,8 +7,10 @@
 package br.com.keepsimple.ffa.service;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
@@ -19,6 +21,7 @@ import org.springframework.stereotype.Service;
 import br.com.keepsimple.ffa.dto.Kill;
 import br.com.keepsimple.ffa.dto.Match;
 import br.com.keepsimple.ffa.dto.Player;
+import br.com.keepsimple.ffa.dto.Weapon;
 
 /**
  * TODO DOCUMENT ME
@@ -108,6 +111,10 @@ public class MatchService {
      * @return
      */
     public List<Player> findPlayersByMatchDate(LocalDate matchDate) {
+        System.out.println("#################################");
+        System.out.println("### Buscando players por data ###");
+        System.out.println(matchDate.format(DateTimeFormatter.ISO_DATE));
+        System.out.println("#################################");
         return findAllPlayers().stream().filter(p -> p.getKill() < 10).collect(Collectors.toList());
     }
 
@@ -119,6 +126,29 @@ public class MatchService {
         list.add(new Player("Joaquim", 5, 23));
         list.add(new Player("Maria", 4, 25));
         list.add(new Player("Adolfo", 4, 19));
+        
+        return list;
+    }
+
+    public List<Weapon> findWeaponsByPeriod(LocalDateTime startDate, LocalDateTime endDate) {
+        System.out.println("#################################");
+        System.out.println("### Buscando weapons por data ###");
+        System.out.println(startDate.format(DateTimeFormatter.ISO_DATE_TIME) + " | " + endDate.format(DateTimeFormatter.ISO_DATE_TIME));
+        System.out.println("#################################");
+        return findAllWeapons().stream().filter(p -> p.getKill() < 40).collect(Collectors.toList());
+    }
+
+    public List<Weapon> findAllWeapons() {
+        
+        List<Weapon> list = new ArrayList<>();
+        
+        list.add(new Weapon("Tres Oitao", 35));
+        list.add(new Weapon("Rifle Cano Longo", 19));
+        list.add(new Weapon("Sniper", 23));
+        list.add(new Weapon("9 mm", 40));
+        list.add(new Weapon("Canivete de abrir garrafa", 0));
+        list.add(new Weapon("Canhao do exercito", 252));
+        list.add(new Weapon("Bomba nuclear", 152463));
         
         return list;
     }
