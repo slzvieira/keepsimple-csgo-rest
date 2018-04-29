@@ -5,7 +5,7 @@ package br.com.keepsimple.ffa;
 
 import org.springframework.web.client.RestTemplate;
 
-import br.com.keepsimple.ffa.dto.Cliente;
+import br.com.keepsimple.ffa.domain.Cliente;
 
 /**
  * @author slvieira

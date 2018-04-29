@@ -4,7 +4,7 @@
  * Copyright 2018 RG Florencio Informatica LTDA. Todos os direitos reservados.
  * RGF PROPRIETARY/CONFIDENTIAL. Proibida a copia e-ou a reproducao deste codigo.
  */
-package br.com.keepsimple.ffa.dto;
+package br.com.keepsimple.ffa.domain;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;

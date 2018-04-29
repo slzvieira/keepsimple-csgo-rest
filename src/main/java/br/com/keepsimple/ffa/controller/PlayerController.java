@@ -19,7 +19,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
-import br.com.keepsimple.ffa.dto.Player;
+import br.com.keepsimple.ffa.domain.Player;
 import br.com.keepsimple.ffa.service.MatchService;
 
 /**

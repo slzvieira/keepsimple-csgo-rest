@@ -1,4 +1,4 @@
-package br.com.keepsimple.ffa.dto;
+package br.com.keepsimple.ffa.domain;
 
 import org.springframework.boot.autoconfigure.domain.EntityScan;
 

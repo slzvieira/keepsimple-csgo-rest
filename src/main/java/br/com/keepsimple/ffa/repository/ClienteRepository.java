@@ -1,4 +1,4 @@
-package br.com.keepsimple.ffa.dao;
+package br.com.keepsimple.ffa.repository;
 
 import org.springframework.stereotype.Repository;
 

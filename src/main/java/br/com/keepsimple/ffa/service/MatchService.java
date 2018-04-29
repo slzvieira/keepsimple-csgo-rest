@@ -16,12 +16,14 @@ import java.util.Collection;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import br.com.keepsimple.ffa.dto.Kill;
-import br.com.keepsimple.ffa.dto.Match;
-import br.com.keepsimple.ffa.dto.Player;
-import br.com.keepsimple.ffa.dto.Weapon;
+import br.com.keepsimple.ffa.domain.Kill;
+import br.com.keepsimple.ffa.domain.Match;
+import br.com.keepsimple.ffa.domain.Player;
+import br.com.keepsimple.ffa.domain.Weapon;
+import br.com.keepsimple.ffa.repository.MatchRepository;
 
 /**
  * TODO DOCUMENT ME
@@ -32,6 +34,9 @@ import br.com.keepsimple.ffa.dto.Weapon;
 @Service
 public class MatchService {
 
+//    @Autowired
+//    private MatchRepository repository;
+    
     /**
      * TODO DOCUMENT ME
      * @return

@@ -6,7 +6,7 @@ import java.util.Map;
 
 import org.springframework.stereotype.Service;
 
-import br.com.keepsimple.ffa.dto.Cliente;
+import br.com.keepsimple.ffa.domain.Cliente;
 
 @Service
 public class ClienteService {
