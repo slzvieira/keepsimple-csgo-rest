@@ -80,7 +80,7 @@ public class MatchService {
      * @param id
      * @return
      */
-    public Match findByPk(Integer id) {
+    public Match findMatch(Integer id) {
 
         Match match = new Match();
         match.setMatch(id);

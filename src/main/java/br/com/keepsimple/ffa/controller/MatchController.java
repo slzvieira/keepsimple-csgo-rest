@@ -34,7 +34,7 @@ public class MatchController {
 
     @RequestMapping(method = RequestMethod.GET, value = "/matches/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Match> getMatch(@PathVariable Integer id) {
-        Match match = service.findByPk(id);
+        Match match = service.findMatch(id);
         return new ResponseEntity<>(match, HttpStatus.OK);
     }
 

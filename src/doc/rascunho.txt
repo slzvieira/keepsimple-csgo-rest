@@ -18,7 +18,7 @@ Arma
     e kills conforme arquivos disponibilizados
     (não é necessário disponibilizar serviço)
  
-+2 - GET /players
+2 - GET /players
     Visualizar ranking de jogadores (Lista ordenada de jogadores)
     nome do jogador
     quantidade de kills
@@ -26,20 +26,20 @@ Arma
     pontuação (kills - mortes)
     (filtro opcional por data das partidas jogadas)
  
-+3 - POST /kills
+3 - POST /kills
     Registrar kill
     jogador killer
     jogador killed
     arma
     id da partida
  
-+4 - GET /weapons
+4 - GET /weapons
     Visualizar ranking de armas (Lista ordenada de armas)
     nome da arma
     quantidade de kills com a arma
     (filtro opcional por data de kill)
  
-+5 - GET /matches
+5 - GET /matches
     Visualizar lista de partidas
     id da partida
     hora início
@@ -47,7 +47,7 @@ Arma
     quantidade de jogadores
     jogador campeão (maior kill-mortes)
   
-+6 - GET /matches/{id}
+6 - GET /matches/{id}
     Detalhes da partida (1 partida)
     id da partida
     hora início
