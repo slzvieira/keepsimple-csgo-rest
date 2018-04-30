@@ -38,20 +38,30 @@ import br.com.keepsimple.ffa.service.MatchService;
  */
 public class MatchServiceTest {
 
+    /** Mock do repositorio de matches. */
     @Mock
     private MatchRepository matchMockRepository;
 
+    /** Mock do repositorio de kills. */
     @Mock
     private KillRepository killMockRepository;
 
+    /** Servico a ser testado. */
     @InjectMocks
     private MatchService service;
 
+    /**
+     * Injeta os mocks.
+     * @throws Exception
+     */
     @Before
     public void setUp() throws Exception {
         MockitoAnnotations.initMocks(this);
     }
 
+    /**
+     * Teste do metodo {@link MatchService#saveKill(Kill)}
+     */
     @Test
     public void testSaveKill() {
 
@@ -67,6 +77,9 @@ public class MatchServiceTest {
         service.saveKill(kill);
     }
 
+    /**
+     * Teste do metodo {@link MatchService#saveMatch(Match)}
+     */
     @Test
     public void testSaveMatch() {
 
@@ -80,6 +93,9 @@ public class MatchServiceTest {
         service.saveMatch(match);
     }
 
+    /**
+     * Teste do metodo {@link MatchService#findAllMatches()}.
+     */
     @Test
     public void testFindAllMatches() {
 
@@ -95,11 +111,17 @@ public class MatchServiceTest {
         Assert.assertTrue(list != null && list.size() == 1);
     }
 
+    /**
+     * TODO IMPLEMENT ME
+     */
     @Test
     public void testFindMatch() {
         Assert.fail("Not yet implemented");
     }
 
+    /**
+     * Teste do metodo {@link MatchService#findAllKills()}.
+     */
     @Test
     public void testFindAllKills() {
         Mockito.when(killMockRepository.findAll()).thenReturn(getMockKillList());
@@ -107,6 +129,9 @@ public class MatchServiceTest {
         Assert.assertTrue(list != null && list.size() == 5);
     }
 
+    /**
+     * Teste do metodo {@link MatchService#findPlayersByPeriod(LocalTime, LocalTime)}.
+     */
     @Test
     public void testFindPlayersByPeriod() {
         Mockito.when(killMockRepository.findByPeriod(Mockito.any(LocalTime.class), Mockito.any(LocalTime.class)))
@@ -115,6 +140,10 @@ public class MatchServiceTest {
         Assert.assertTrue(list.isEmpty());
     }
 
+    /**
+     * Teste do metodo {@link MatchService#findAllPlayers()}.
+     * Verifica se a separacao de {@link Player}s esta correta a partir de uma lista de {@link Kill}.
+     */
     @Test
     public void testFindAllPlayers() {
         Mockito.when(killMockRepository.findAll()).thenReturn(getMockKillList());
@@ -123,6 +152,9 @@ public class MatchServiceTest {
             list != null && list.size() == 3 && list.get(0).getName().equals("Manuel") && list.get(0).getScore() == 2);
     }
 
+    /**
+     * Teste do metodo {@link MatchService#findWeaponsByPeriod(LocalTime, LocalTime)}.
+     */
     @Test
     public void testFindWeaponsByPeriod() {
         Mockito.when(killMockRepository.findByPeriod(Mockito.any(LocalTime.class), Mockito.any(LocalTime.class)))
@@ -131,6 +163,10 @@ public class MatchServiceTest {
         Assert.assertTrue(list.isEmpty());
     }
 
+    /**
+     * Teste do metodo {@link MatchService#findAllWeapons()}.
+     * Verifica se a separacao de {@link Weapon}s esta correta a partir de uma lista de {@link Kill}.
+     */
     @Test
     public void testFindAllWeapons() {
         Mockito.when(killMockRepository.findAll()).thenReturn(getMockKillList());
@@ -139,6 +175,10 @@ public class MatchServiceTest {
             list != null && list.size() == 4 && list.get(0).getName().equals("Canivete") && list.get(0).getKill() == 2);
     }
 
+    /**
+     * Pequena lista mock de kills.
+     * @return Lista mock para testes.
+     */
     private List<Kill> getMockKillList() {
 
         List<Kill> mockList = new ArrayList<>();
