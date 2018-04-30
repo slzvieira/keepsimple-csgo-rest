@@ -7,8 +7,11 @@
 package br.com.keepsimple.ffa.controller;
 
 import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpStatus;
@@ -31,6 +34,9 @@ import br.com.keepsimple.ffa.service.MatchService;
 @RestController
 public class PlayerController {
 
+    /** Log da aplicacao (Commons logging). */
+    private static final Log log = LogFactory.getLog(PlayerController.class);
+
     /** Servico responsavel por obter os dados a serem expostos. */
     @Autowired
     private MatchService service;
@@ -47,7 +53,15 @@ public class PlayerController {
     public ResponseEntity<List<Player>> getPlayers(
             @PathVariable @DateTimeFormat(pattern = "HH:mm:ss") LocalTime startTime,
             @PathVariable @DateTimeFormat(pattern = "HH:mm:ss") LocalTime endTime) {
+
+        if (log.isDebugEnabled()) {
+            log.debug("PlayerController#getPlayers(" + startTime.format(DateTimeFormatter.ISO_LOCAL_TIME) + ", "
+                    + endTime.format(DateTimeFormatter.ISO_LOCAL_TIME) + ") - Inicio");
+        }
+
         List<Player> playerList = service.findPlayersByPeriod(startTime, endTime);
+
+        log.debug("PlayerController#getPlayers() - Fim");
         return new ResponseEntity<>(playerList, HttpStatus.OK);
     }
 
@@ -59,7 +73,9 @@ public class PlayerController {
      */
     @RequestMapping(method = RequestMethod.GET, value = "/players", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<List<Player>> getAllPlayers() {
+        log.debug("PlayerController#getAllPlayers() - Inicio");
         List<Player> playerList = service.findAllPlayers();
+        log.debug("PlayerController#getAllPlayers() - Fim");
         return new ResponseEntity<>(playerList, HttpStatus.OK);
     }
 }

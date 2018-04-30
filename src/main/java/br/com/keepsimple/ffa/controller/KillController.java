@@ -8,6 +8,10 @@ package br.com.keepsimple.ffa.controller;
 
 import java.util.List;
 
+import org.apache.commons.lang3.builder.ToStringBuilder;
+import org.apache.commons.lang3.builder.ToStringStyle;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -29,6 +33,9 @@ import br.com.keepsimple.ffa.service.MatchService;
 @RestController
 public class KillController {
 
+    /** Log da aplicacao (Commons logging). */
+    private static final Log log = LogFactory.getLog(KillController.class);
+
     /** Servico responsavel por obter os dados a serem expostos. */
     @Autowired
     private MatchService service;
@@ -42,7 +49,9 @@ public class KillController {
      */
     @RequestMapping(method = RequestMethod.GET, value = "/kills", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<List<Kill>> getAllKills() {
+        log.debug("KillController#getAllKills() - Inicio");
         List<Kill> killList = service.findAllKills();
+        log.debug("KillController#getAllKills() - Fim");
         return new ResponseEntity<>(killList, HttpStatus.OK);
     }
 
@@ -53,7 +62,15 @@ public class KillController {
      */
     @RequestMapping(method = RequestMethod.POST, value = "/kills", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Kill> postKill(@RequestBody Kill kill) {
+
+        if (log.isDebugEnabled()) {
+            log.debug("KillController#postKill() - Inicio - "
+                    + ToStringBuilder.reflectionToString(kill, ToStringStyle.JSON_STYLE));
+        }
+
         service.saveKill(kill);
+
+        log.debug("KillController#postKill() - Fim");
         return new ResponseEntity<>(HttpStatus.CREATED);
     }
 }

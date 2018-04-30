@@ -8,6 +8,8 @@ package br.com.keepsimple.ffa.controller;
 
 import java.util.Collection;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -29,6 +31,9 @@ import br.com.keepsimple.ffa.service.MatchService;
 @RestController
 public class MatchController {
 
+    /** Log da aplicacao (Commons logging). */
+    private static final Log log = LogFactory.getLog(MatchController.class);
+
     /** Servico responsavel por obter os dados a serem expostos. */
     @Autowired
     private MatchService service;
@@ -40,7 +45,14 @@ public class MatchController {
      */
     @RequestMapping(method = RequestMethod.GET, value = "/matches/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Match> getMatch(@PathVariable Integer id) {
+
+        if (log.isDebugEnabled()) {
+            log.debug("MatchController#getMatch(" + id + ") - Inicio");
+        }
+        
         Match match = service.findMatch(id);
+
+        log.debug("MatchController#getMatch() - Fim");
         return new ResponseEntity<>(match, HttpStatus.OK);
     }
 
@@ -50,7 +62,9 @@ public class MatchController {
      */
     @RequestMapping(method = RequestMethod.GET, value = "/matches", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Collection<Match>> getAllMatches() {
+        log.debug("MatchController#getAllMatches() - Inicio");
         Collection<Match> matchCollection = service.findAllMatches();
+        log.debug("MatchController#getAllMatches() - Fim");
         return new ResponseEntity<>(matchCollection, HttpStatus.OK);
     }
 }

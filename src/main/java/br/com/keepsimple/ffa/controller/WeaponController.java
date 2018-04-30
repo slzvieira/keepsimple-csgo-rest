@@ -7,8 +7,11 @@
 package br.com.keepsimple.ffa.controller;
 
 import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpStatus;
@@ -31,6 +34,9 @@ import br.com.keepsimple.ffa.service.MatchService;
 @RestController
 public class WeaponController {
 
+    /** Log da aplicacao (Commons logging). */
+    private static final Log log = LogFactory.getLog(WeaponController.class);
+
     /** Servico responsavel por obter os dados a serem expostos. */
     @Autowired
     private MatchService service;
@@ -48,10 +54,16 @@ public class WeaponController {
             @PathVariable @DateTimeFormat(pattern = "HH:mm:ss") LocalTime startTime,
             @PathVariable @DateTimeFormat(pattern = "HH:mm:ss") LocalTime endTime) {
 
+        if (log.isDebugEnabled()) {
+            log.debug("WeaponController#getWeapons(" + startTime.format(DateTimeFormatter.ISO_LOCAL_TIME) + ", "
+                    + endTime.format(DateTimeFormatter.ISO_LOCAL_TIME) + ") - Inicio");
+        }
+
         List<Weapon> weaponList = service.findWeaponsByPeriod(startTime, endTime);
+
+        log.debug("WeaponController#getWeapons() - Fim");
         return new ResponseEntity<>(weaponList, HttpStatus.OK);
     }
-
 
     /**
      * Prove o ranking completo (de todos os kills registrados pelo sistema)
@@ -61,7 +73,9 @@ public class WeaponController {
      */
     @RequestMapping(method = RequestMethod.GET, value = "/weapons", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<List<Weapon>> getAllWeapons() {
+        log.debug("WeaponController#getAllWeapons() - Inicio");
         List<Weapon> weaponList = service.findAllWeapons();
+        log.debug("WeaponController#getAllWeapons() - Fim");
         return new ResponseEntity<>(weaponList, HttpStatus.OK);
     }
 }

@@ -14,6 +14,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -33,6 +35,9 @@ import br.com.keepsimple.ffa.repository.MatchRepository;
 @Service
 public class MatchService {
 
+    /** Log da aplicacao (Commons logging). */
+    private static final Log log = LogFactory.getLog(MatchService.class);
+
     /** Repositorio de partidas. */
     @Autowired
     private MatchRepository matchRepository;
@@ -46,6 +51,7 @@ public class MatchService {
      * @param kill Dados da morte.
      */
     public void saveKill(Kill kill) {
+        log.info("Registrando kill...");
         killRepository.save(kill);
     }
 
@@ -54,6 +60,7 @@ public class MatchService {
      * @param match Dados da partida.
      */
     public void saveMatch(Match match) {
+        log.info("Registrando match...");
         matchRepository.save(match);
     }
 
@@ -62,6 +69,7 @@ public class MatchService {
      * @return Lista de partidas.
      */
     public Collection<Match> findAllMatches() {
+        log.info("Obtendo detalhes do match...");
         return matchRepository.findAll();
         // TODO Implementar quantidade de jogadores e jogador campeao
     }
@@ -73,6 +81,7 @@ public class MatchService {
      */
     public Match findMatch(Integer id) {
         // TODO IMPLEMENT ME
+        log.warn("Nao implementado");
         return null;
     }
 
@@ -81,6 +90,7 @@ public class MatchService {
      * @return Lista de mortes.
      */
     public List<Kill> findAllKills() {
+        log.info("Obtendo lista de todos os kills...");
         return killRepository.findAll();
     }
 
@@ -93,7 +103,11 @@ public class MatchService {
      * @return Lista de jogadores ordenada por pontuacao.
      */
     public List<Player> findPlayersByPeriod(LocalTime startTime, LocalTime endTime) {
+
+        log.info("Obtendo lista de kills para o periodo especificado.");
         List<Kill> killList = killRepository.findByPeriod(startTime, endTime);
+
+        log.info("Computando players do periodo.");
         return toPlayerList(killList);
     }
 
@@ -103,7 +117,11 @@ public class MatchService {
      * @return Lista de jogadores ordenada por pontuacao.
      */
     public List<Player> findAllPlayers() {
+
+        log.info("Obtendo lista de todos os kills");
         List<Kill> killList = killRepository.findAll();
+
+        log.info("Computando players.");
         return toPlayerList(killList);
     }
 
@@ -116,7 +134,11 @@ public class MatchService {
      * @return Lista de armas ordenada por pontuacao.
      */
     public List<Weapon> findWeaponsByPeriod(LocalTime startTime, LocalTime endTime) {
+
+        log.info("Obtendo lista de kills para o periodo especificado.");
         List<Kill> killList = killRepository.findByPeriod(startTime, endTime);
+
+        log.info("Computando weapons do periodo.");
         return toWeaponList(killList);
     }
 
@@ -127,7 +149,11 @@ public class MatchService {
      * @return Lista de armas ordenada por pontuacao.
      */
     public List<Weapon> findAllWeapons() {
+
+        log.info("Obtendo lista de todos os kills");
         List<Kill> killList = killRepository.findAll();
+
+        log.info("Computando weapons.");
         return toWeaponList(killList);
     }
 
@@ -175,12 +201,9 @@ public class MatchService {
          * Coleta os valores do mapa (players acumulados por nome),
          * ordena pelo score e converte para lista
          */
-        return map.values()
-                  .stream()
-                  .sorted(Comparator.comparing(Player::getScore).reversed())
-                  .collect(Collectors.toList());
+        return map.values().stream().sorted(Comparator.comparing(Player::getScore).reversed())
+            .collect(Collectors.toList());
     }
-
 
     /**
      * Obtem o ranking das armas a partir da lista de kills.
@@ -208,9 +231,7 @@ public class MatchService {
          * Coleta os valores do mapa (armas acumuladss por nome),
          * ordena pelo score e converte para lista
          */
-        return map.values()
-                  .stream()
-                  .sorted(Comparator.comparing(Weapon::getKill).reversed())
-                  .collect(Collectors.toList());
+        return map.values().stream().sorted(Comparator.comparing(Weapon::getKill).reversed())
+            .collect(Collectors.toList());
     }
 }
