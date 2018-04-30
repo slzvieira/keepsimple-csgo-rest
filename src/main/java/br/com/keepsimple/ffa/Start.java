@@ -14,6 +14,8 @@ import org.apache.commons.logging.LogFactory;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.boot.builder.SpringApplicationBuilder;
+import org.springframework.boot.web.support.SpringBootServletInitializer;
 import org.springframework.context.annotation.Bean;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -31,7 +33,7 @@ import br.com.keepsimple.ffa.service.MatchService;
  * @version 1.0, 29/abr/2018 - Implementation.
  */
 @SpringBootApplication
-public class Start {
+public class Start extends SpringBootServletInitializer {
 
     /** Arquivo JSON contendo as partidas (matches). */
     private static final String MATCHES_RESOURCE = "/matches.json";
@@ -43,11 +45,23 @@ public class Start {
     private static final Log log = LogFactory.getLog(Start.class);
     
     /**
-     * Inicia o contexto Spring Boot e toda a aplicacao.
+     * Inicia o contexto Spring Boot como aplicacao embbed (Tomcat embutido).
      * @param args Argumentos de entrada (nao utilizado)
      */
     public static void main(String[] args) {
         SpringApplication.run(Start.class, args);
+    }
+
+    /**
+     * Inicia o contexto Spring Boot como aplicacao web quando distribuida em servidor
+     * independente (arquivo war).
+     * @param application
+     * @return
+     * @see org.springframework.boot.web.support.SpringBootServletInitializer#configure(
+     *      org.springframework.boot.builder.SpringApplicationBuilder)
+     */
+    protected SpringApplicationBuilder configure(SpringApplicationBuilder application) {
+        return application.sources(Start.class);
     }
 
     /**
@@ -88,7 +102,7 @@ public class Start {
                 new InputStreamReader(Start.class.getResourceAsStream(MATCHES_RESOURCE)))) {
 
                 Match match;
-                StringBuilder builder = null;;
+                StringBuilder builder = null;
                 int count = 0;
 
                 while (reader.ready()) {
