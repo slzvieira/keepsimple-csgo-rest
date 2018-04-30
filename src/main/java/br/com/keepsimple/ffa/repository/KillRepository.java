@@ -36,4 +36,11 @@ public interface KillRepository extends JpaRepository<Kill, Integer> {
      */
     @Query("SELECT k FROM Kill k WHERE k.killtime >= :startTime AND k.killtime <= :endTime")
     List<Kill> findByPeriod(@Param("startTime") LocalTime startTime, @Param("endTime") LocalTime endTime);
+
+	/**
+	 * Obtem a lista de kills por partida
+	 * @param id ID da partida
+	 * @return Lista de kills
+	 */
+	List<Kill> findByMatch(Integer id);
 }

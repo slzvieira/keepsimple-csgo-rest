@@ -117,9 +117,25 @@ public class MatchService {
      * @return Detalhes da partida.
      */
     public Match findMatch(Integer id) {
-        // TODO IMPLEMENT ME
-        log.warn("Nao implementado");
-        return null;
+
+    	Match match = matchRepository.findOne(id);
+    	List<Kill> killList = killRepository.findByMatch(id);
+
+    	/* Se nao houver registro da partida (partida nao existente), retorna null */
+    	if (match == null && (killList == null || killList.isEmpty())) {
+    		return null;
+    	}
+
+    	/* Se houver registro de kills, mesmo sem partida registrada, gera uma partida sem data. */
+    	if (match == null) {
+    		match = new Match();
+    		match.setMatch(id);
+    	}
+
+    	/* Obtem a lista ordenada de jogadores a partir dos kills registrados. */
+    	match.setPlayers(toPlayerList(killList));
+    	
+        return match;
     }
 
     /**
