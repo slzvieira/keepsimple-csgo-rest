@@ -6,6 +6,11 @@
  */
 package br.com.keepsimple.ffa.domain;
 
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
 
@@ -15,8 +20,11 @@ import com.fasterxml.jackson.annotation.JsonInclude.Include;
  * @author Sandro
  * @version 1.0, 29/abr/2018 - Implementation.
  */
+@Entity
 public class Player {
 
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private String name;
 
     @JsonInclude(Include.NON_EMPTY)
@@ -91,6 +99,18 @@ public class Player {
     }
 
     /**
+     * Adds a kill to the score
+     */
+    public void addKill() {
+        if (kill == null) {
+            kill = 1;
+        } else {
+            kill++;
+        }
+        computeScore();
+    }
+
+    /**
      * Returns the XXX
      * @return the die
      */
@@ -108,6 +128,18 @@ public class Player {
     }
 
     /**
+     * Adds a die to the score
+     */
+    public void addDie() {
+        if (die == null) {
+            die = 1;
+        } else {
+            die++;
+        }
+        computeScore();
+    }
+
+    /**
      * Returns the XXX
      * @return the score
      */
@@ -115,6 +147,10 @@ public class Player {
         return score;
     }
 
+    public String toString() {
+        return name;
+    }
+    
     /**
      * TODO DOCUMENT ME
      */

@@ -8,18 +8,32 @@ package br.com.keepsimple.ffa.domain;
 
 import java.time.LocalTime;
 
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+
+import com.fasterxml.jackson.annotation.JsonFormat;
+
 /**
  * TODO DOCUMENT ME
  * 
  * @author Sandro
  * @version 1.0, 29/abr/2018 - Implementation.
  */
+@Entity
 public class Kill {
+
+    /** ID da morte. */
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private Integer id;
 
     /** ID da partida. */
     private Integer match;
 
     /** Momento da morte. */
+    @JsonFormat(pattern = "HH:mm:ss")
     private LocalTime killtime;
 
     /** Jogador que matou. */
@@ -30,6 +44,22 @@ public class Kill {
 
     /** Arma utilizada. */
     private String weapon;
+
+    /**
+     * Returns the XXX
+     * @return the id
+     */
+    public Integer getId() {
+        return id;
+    }
+
+    /**
+     * Assigns the XXX
+     * @param id the id to set
+     */
+    public void setId(Integer id) {
+        this.id = id;
+    }
 
     /**
      * Returns the XXX

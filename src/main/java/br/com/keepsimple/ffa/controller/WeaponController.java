@@ -6,7 +6,7 @@
  */
 package br.com.keepsimple.ffa.controller;
 
-import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,12 +34,12 @@ public class WeaponController {
     @Autowired
     private MatchService service;
 
-    @RequestMapping(method = RequestMethod.GET, value = "/weapons/{startDate}/{endDate}", produces = MediaType.APPLICATION_JSON_VALUE)
+    @RequestMapping(method = RequestMethod.GET, value = "/weapons/{startTime}/{endTime}", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<List<Weapon>> getWeapons(
-            @PathVariable @DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm:ss") LocalDateTime startDate,
-            @PathVariable @DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm:ss") LocalDateTime endDate) {
+            @PathVariable @DateTimeFormat(pattern = "HH:mm:ss") LocalTime startTime,
+            @PathVariable @DateTimeFormat(pattern = "HH:mm:ss") LocalTime endTime) {
 
-        List<Weapon> weaponList = service.findWeaponsByPeriod(startDate, endDate);
+        List<Weapon> weaponList = service.findWeaponsByPeriod(startTime, endTime);
         return new ResponseEntity<>(weaponList, HttpStatus.OK);
     }
 

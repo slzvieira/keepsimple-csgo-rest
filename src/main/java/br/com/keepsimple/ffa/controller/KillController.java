@@ -6,6 +6,8 @@
  */
 package br.com.keepsimple.ffa.controller;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -29,6 +31,12 @@ public class KillController {
 
     @Autowired
     private MatchService service;
+
+    @RequestMapping(method = RequestMethod.GET, value = "/kills", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<List<Kill>> getAllKills() {
+        List<Kill> killList = service.findAllKills();
+        return new ResponseEntity<>(killList, HttpStatus.OK);
+    }
 
     @RequestMapping(method = RequestMethod.POST, value = "/kills", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Kill> postKill(@RequestBody Kill kill) {

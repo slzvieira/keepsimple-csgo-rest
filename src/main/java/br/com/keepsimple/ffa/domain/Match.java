@@ -9,15 +9,24 @@ package br.com.keepsimple.ffa.domain;
 import java.time.ZonedDateTime;
 import java.util.List;
 
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.Transient;
+
 /**
  * Retem os detalhes de uma partida.
  * 
  * @author Sandro
  * @version 1.0, 29/abr/2018 - Implementation.
  */
+@Entity
 public class Match {
 
     /** ID da partida. */
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer match;
 
     /** Data/hora de inicio. */
@@ -27,6 +36,7 @@ public class Match {
     private ZonedDateTime end;
 
     /** List de jogadores participantes. */
+    @Transient
     private List<Player> players;
 
     /**

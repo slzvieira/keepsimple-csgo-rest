@@ -6,7 +6,7 @@
  */
 package br.com.keepsimple.ffa.controller;
 
-import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,9 +34,11 @@ public class PlayerController {
     @Autowired
     private MatchService service;
 
-    @RequestMapping(method = RequestMethod.GET, value = "/players/{matchDate}", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<List<Player>> getPlayers(@PathVariable @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate matchDate) {
-        List<Player> playerList = service.findPlayersByMatchDate(matchDate);
+    @RequestMapping(method = RequestMethod.GET, value = "/players/{startTime}/{endTime}", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<List<Player>> getPlayers(
+            @PathVariable @DateTimeFormat(pattern = "HH:mm:ss") LocalTime startTime,
+            @PathVariable @DateTimeFormat(pattern = "HH:mm:ss") LocalTime endTime) {
+        List<Player> playerList = service.findPlayersByPeriod(startTime, endTime);
         return new ResponseEntity<>(playerList, HttpStatus.OK);
     }
 

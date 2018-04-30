@@ -6,14 +6,12 @@
  */
 package br.com.keepsimple.ffa.service;
 
-import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.time.ZoneId;
-import java.time.ZonedDateTime;
-import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
+import java.time.LocalTime;
 import java.util.Collection;
+import java.util.Comparator;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,6 +21,7 @@ import br.com.keepsimple.ffa.domain.Kill;
 import br.com.keepsimple.ffa.domain.Match;
 import br.com.keepsimple.ffa.domain.Player;
 import br.com.keepsimple.ffa.domain.Weapon;
+import br.com.keepsimple.ffa.repository.KillRepository;
 import br.com.keepsimple.ffa.repository.MatchRepository;
 
 /**
@@ -34,50 +33,35 @@ import br.com.keepsimple.ffa.repository.MatchRepository;
 @Service
 public class MatchService {
 
-//    @Autowired
-//    private MatchRepository repository;
-    
+    @Autowired
+    private MatchRepository matchRepository;
+
+    @Autowired
+    private KillRepository killRepository;
+
+    /**
+     * TODO DOCUMENT ME
+     * @param kill
+     */
+    public void saveKill(Kill kill) {
+        killRepository.save(kill);
+    }
+
+    /**
+     * TODO DOCUMENT ME
+     * @param match
+     */
+    public void saveMatch(Match match) {
+        matchRepository.save(match);
+    }
+
     /**
      * TODO DOCUMENT ME
      * @return
      */
     public Collection<Match> findAllMatches() {
-        
-        Collection<Match> collection = new ArrayList<>();
-        Match match;
-
-        match = new Match();
-        match.setMatch(12345);
-        match.setBegin(ZonedDateTime.of(2018, 2, 23, 23, 12, 8, 0, ZoneId.systemDefault()));
-        match.setEnd(ZonedDateTime.of(2018, 2, 23, 23, 45, 15, 0, ZoneId.systemDefault()));
-        match.setPlayers(new ArrayList<>());
-        match.getPlayers().add(new Player("Manuel", 8, 3));
-        match.getPlayers().add(new Player("Joaquim", 3, null));
-        match.getPlayers().add(new Player("Maria", null, 8));
-        collection.add(match);
-
-        match = new Match();
-        match.setMatch(53674);
-        match.setBegin(ZonedDateTime.of(2018, 2, 23, 23, 12, 8, 0, ZoneId.systemDefault()));
-        match.setEnd(ZonedDateTime.of(2018, 2, 23, 23, 45, 15, 0, ZoneId.systemDefault()));
-        match.setPlayers(new ArrayList<>());
-        match.getPlayers().add(new Player("Manuel"));
-        match.getPlayers().add(new Player("Joaquim"));
-        match.getPlayers().add(new Player("Maria"));
-        match.getPlayers().add(new Player("Ricardo"));
-        match.getPlayers().add(new Player("Augusto"));
-        collection.add(match);
-
-        match = new Match();
-        match.setMatch(97721);
-        match.setBegin(ZonedDateTime.of(2018, 3, 2, 1, 22, 40, 0, ZoneId.systemDefault()));
-        match.setEnd(ZonedDateTime.of(2018, 3, 2, 2, 45, 2, 0, ZoneId.systemDefault()));
-        match.setPlayers(new ArrayList<>());
-        match.getPlayers().add(new Player("Joaquim"));
-        match.getPlayers().add(new Player("Maria"));
-        collection.add(match);
-        
-        return collection;
+        return matchRepository.findAll();
+        // TODO Implementar quantidade de jogadores e jogador campeao
     }
 
     /**
@@ -86,28 +70,12 @@ public class MatchService {
      * @return
      */
     public Match findMatch(Integer id) {
-
-        Match match = new Match();
-        match.setMatch(id);
-        match.setBegin(ZonedDateTime.of(2018, 2, 23, 23, 12, 8, 0, ZoneId.systemDefault()));
-        match.setEnd(ZonedDateTime.of(2018, 2, 23, 23, 45, 15, 0, ZoneId.systemDefault()));
-        match.setPlayers(new ArrayList<>());
-        match.getPlayers().add(new Player("Manuel", 8, 3));
-        match.getPlayers().add(new Player("Joaquim", 3, null));
-        match.getPlayers().add(new Player("Maria", null, 8));
-        
-        return match;
+        // TODO IMPLEMENT ME
+        return null;
     }
 
-    /**
-     * TODO DOCUMENT ME
-     * @param kill
-     */
-    public void saveKill(Kill kill) {
-        System.out.println("##############################");
-        System.out.println("###### Registrando Kill ######");
-        System.out.println("##############################");
-        System.out.println(kill.getMatch() + " - " + kill.getKilltime() + " - " + kill.getKiller() + " - " + kill.getKilled() + " - " + kill.getWeapon());
+    public List<Kill> findAllKills() {
+        return killRepository.findAll();
     }
 
     /**
@@ -115,46 +83,102 @@ public class MatchService {
      * @param matchDate
      * @return
      */
-    public List<Player> findPlayersByMatchDate(LocalDate matchDate) {
-        System.out.println("#################################");
-        System.out.println("### Buscando players por data ###");
-        System.out.println(matchDate.format(DateTimeFormatter.ISO_DATE));
-        System.out.println("#################################");
-        return findAllPlayers().stream().filter(p -> p.getKill() < 10).collect(Collectors.toList());
+    public List<Player> findPlayersByPeriod(LocalTime startTime, LocalTime endTime) {
+        List<Kill> killList = killRepository.findByPeriod(startTime, endTime);
+        return toPlayerList(killList);
     }
 
     public List<Player> findAllPlayers() {
-
-        List<Player> list = new ArrayList<>();
-
-        list.add(new Player("Manuel", 18, 15));
-        list.add(new Player("Joaquim", 5, 23));
-        list.add(new Player("Maria", 4, 25));
-        list.add(new Player("Adolfo", 4, 19));
-        
-        return list;
+        List<Kill> killList = killRepository.findAll();
+        return toPlayerList(killList);
     }
 
-    public List<Weapon> findWeaponsByPeriod(LocalDateTime startDate, LocalDateTime endDate) {
-        System.out.println("#################################");
-        System.out.println("### Buscando weapons por data ###");
-        System.out.println(startDate.format(DateTimeFormatter.ISO_DATE_TIME) + " | " + endDate.format(DateTimeFormatter.ISO_DATE_TIME));
-        System.out.println("#################################");
-        return findAllWeapons().stream().filter(p -> p.getKill() < 40).collect(Collectors.toList());
+    public List<Weapon> findWeaponsByPeriod(LocalTime startTime, LocalTime endTime) {
+        List<Kill> killList = killRepository.findByPeriod(startTime, endTime);
+        return toWeaponList(killList);
     }
 
     public List<Weapon> findAllWeapons() {
-        
-        List<Weapon> list = new ArrayList<>();
-        
-        list.add(new Weapon("Tres Oitao", 35));
-        list.add(new Weapon("Rifle Cano Longo", 19));
-        list.add(new Weapon("Sniper", 23));
-        list.add(new Weapon("9 mm", 40));
-        list.add(new Weapon("Canivete de abrir garrafa", 0));
-        list.add(new Weapon("Canhao do exercito", 252));
-        list.add(new Weapon("Bomba nuclear", 152463));
-        
-        return list;
+        List<Kill> killList = killRepository.findAll();
+        return toWeaponList(killList);
+    }
+
+    /**
+     * Obtem o ranking de jogadores a partir da lista de kills.
+     * @param killCollection
+     * @return
+     */
+    private List<Player> toPlayerList(Collection<Kill> killCollection) {
+
+        Map<String, Player> map = new HashMap<>();
+        Player killerPlayer;
+        Player killedPlayer;
+
+        /*
+         * Para cada kill, contabiliza o matador e o morto
+         * em um mapa chaveado pelo nome, a fim de evitar
+         * duplicidades de players
+         */
+        for (Kill kill : killCollection) {
+
+            killerPlayer = map.get(kill.getKiller());
+            killedPlayer = map.get(kill.getKilled());
+
+            if (killerPlayer == null) {
+                killerPlayer = new Player(kill.getKiller(), 0, 0);
+                map.put(kill.getKiller(), killerPlayer);
+            }
+
+            if (killedPlayer == null) {
+                killedPlayer = new Player(kill.getKilled(), 0, 0);
+                map.put(kill.getKilled(), killedPlayer);
+            }
+
+            /* Soma um kill ao matador e um die ao morto */
+            killerPlayer.addKill();
+            killedPlayer.addDie();
+        }
+
+        /*
+         * Coleta os valores do mapa (players acumulados por nome),
+         * ordena pelo score e converte para lista
+         */
+        return map.values()
+                  .stream()
+                  .sorted(Comparator.comparing(Player::getScore).reversed())
+                  .collect(Collectors.toList());
+    }
+
+
+    /**
+     * Obtem o ranking das armas a partir da lista de kills.
+     * @param killCollection
+     * @return
+     */
+    private List<Weapon> toWeaponList(List<Kill> killList) {
+
+        Map<String, Weapon> map = new HashMap<>();
+        Weapon weapon;
+
+        for (Kill kill : killList) {
+
+            weapon = map.get(kill.getWeapon());
+
+            if (weapon == null) {
+                weapon = new Weapon(kill.getWeapon(), 0);
+                map.put(kill.getWeapon(), weapon);
+            }
+
+            weapon.setKill(weapon.getKill() + 1);
+        }
+
+        /*
+         * Coleta os valores do mapa (armas acumuladss por nome),
+         * ordena pelo score e converte para lista
+         */
+        return map.values()
+                  .stream()
+                  .sorted(Comparator.comparing(Weapon::getKill).reversed())
+                  .collect(Collectors.toList());
     }
 }
