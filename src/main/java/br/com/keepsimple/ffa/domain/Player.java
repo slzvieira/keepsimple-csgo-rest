@@ -6,57 +6,53 @@
  */
 package br.com.keepsimple.ffa.domain;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
 
 /**
- * TODO DOCUMENT ME
+ * Retem os detalhes de um jogador (player).
  * 
- * @author Sandro
+ * @author Sandro Vieira
  * @version 1.0, 29/abr/2018 - Implementation.
  */
-@Entity
 public class Player {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    /** Nome do jogador. */
     private String name;
 
+    /** Quantidade de mortes provocadas pelo jogador. */
     @JsonInclude(Include.NON_EMPTY)
     private Integer kill;
 
+    /** Quantidade de mortes sofridas pelo jogador. */
     @JsonInclude(Include.NON_EMPTY)
     private Integer die;
 
+    /** Score do jogador (kill - die) */
     @JsonInclude(Include.NON_EMPTY)
     private Integer score;
 
     /**
-     * Default constructor
+     * Construdor default
      */
     public Player() {
         // do nothing
     }
 
     /**
-     * Constructor qualified with the player name.
-     * @param name
+     * Construtor qualificado com o nome do jogador.
+     * @param name Nome do jogador.
      */
     public Player(String name) {
         this.name = name;
     }
 
     /**
-     * Constructor qualified with the player name, quantity of kills and quantity of killeds
+     * Construtor qualificado com o nome, quantidade de mortes provocadas e mortes sofrida. 
      * 
-     * @param name
-     * @param kill
-     * @param die
+     * @param name Nome do jogador.
+     * @param kill Quantidade de mortes provocadas.
+     * @param die Quantidade de mortes sofridas.
      */
     public Player(String name, Integer kill, Integer die) {
         this.name = name;
@@ -66,7 +62,7 @@ public class Player {
     }
 
     /**
-     * Returns the XXX
+     * Returns the Nome do jogador.
      * @return the name
      */
     public String getName() {
@@ -74,7 +70,7 @@ public class Player {
     }
 
     /**
-     * Assigns the XXX
+     * Assigns the Nome do jogador.
      * @param name the name to set
      */
     public void setName(String name) {
@@ -82,7 +78,7 @@ public class Player {
     }
 
     /**
-     * Returns the XXX
+     * Returns the Quantidade de mortes provocadas pelo jogador. 
      * @return the kill
      */
     public Integer getKill() {
@@ -90,7 +86,7 @@ public class Player {
     }
 
     /**
-     * Assigns the XXX
+     * Assigns the Quantidade de mortes provocadas pelo jogador. 
      * @param kill the kill to set
      */
     public void setKill(Integer kill) {
@@ -111,7 +107,7 @@ public class Player {
     }
 
     /**
-     * Returns the XXX
+     * Returns the Quantidade de mortes sofridas pelo jogador.
      * @return the die
      */
     public Integer getDie() {
@@ -119,7 +115,7 @@ public class Player {
     }
 
     /**
-     * Assigns the XXX
+     * Assigns the Quantidade de mortes sofridas pelo jogador.
      * @param die the die to set
      */
     public void setDie(Integer die) {
@@ -140,19 +136,22 @@ public class Player {
     }
 
     /**
-     * Returns the XXX
+     * Returns the Score do jogador (kill - die) 
      * @return the score
      */
     public Integer getScore() {
         return score;
     }
 
+    /* (non-Javadoc)
+     * @see java.lang.Object#toString()
+     */
     public String toString() {
         return name;
     }
     
     /**
-     * TODO DOCUMENT ME
+     * Atualiza o score do jogador.
      */
     private void computeScore() {
         if (kill != null && die != null) {

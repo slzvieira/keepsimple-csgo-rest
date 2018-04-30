@@ -18,7 +18,7 @@ import javax.persistence.Transient;
 /**
  * Retem os detalhes de uma partida.
  * 
- * @author Sandro
+ * @author Sandro Vieira
  * @version 1.0, 29/abr/2018 - Implementation.
  */
 @Entity

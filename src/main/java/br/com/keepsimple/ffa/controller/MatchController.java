@@ -21,23 +21,33 @@ import br.com.keepsimple.ffa.domain.Match;
 import br.com.keepsimple.ffa.service.MatchService;
 
 /**
- * TODO DOCUMENT ME
+ * Expoe o microservico REST para a entidade {@link Match}
  * 
- * @author Sandro
+ * @author Sandro Vieira
  * @version 1.0, 29/abr/2018 - Implementation.
  */
 @RestController
 public class MatchController {
 
+    /** Servico responsavel por obter os dados a serem expostos. */
     @Autowired
     private MatchService service;
 
+    /**
+     * Prove os edetalhes de uma partida (match).
+     * @param id Id da partida desejada
+     * @return Detalhes da partida.
+     */
     @RequestMapping(method = RequestMethod.GET, value = "/matches/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Match> getMatch(@PathVariable Integer id) {
         Match match = service.findMatch(id);
         return new ResponseEntity<>(match, HttpStatus.OK);
     }
 
+    /**
+     * Prove a lista completa de todas as partidas registradas no sistema.
+     * @return Lista de todas as partidas
+     */
     @RequestMapping(method = RequestMethod.GET, value = "/matches", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Collection<Match>> getAllMatches() {
         Collection<Match> matchCollection = service.findAllMatches();

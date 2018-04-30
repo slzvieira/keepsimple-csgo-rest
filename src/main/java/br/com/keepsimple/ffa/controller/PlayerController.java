@@ -23,17 +23,26 @@ import br.com.keepsimple.ffa.domain.Player;
 import br.com.keepsimple.ffa.service.MatchService;
 
 /**
- * TODO DOCUMENT ME
+ * Expoe o microservico REST para a entidade {@link Player}
  * 
- * @author Sandro
+ * @author Sandro Vieira
  * @version 1.0, 29/abr/2018 - Implementation.
  */
 @RestController
 public class PlayerController {
 
+    /** Servico responsavel por obter os dados a serem expostos. */
     @Autowired
     private MatchService service;
 
+    /**
+     * Prove o ranking parcial (contabilidade apenas no periodo especificado)
+     * dos jogadores ordenando por pontuacao (kill - die) de forma decrescente.
+     * 
+     * @param startTime Hora de inicio do periodo desejado.
+     * @param endTime Hora de termino do periodo desejado.
+     * @return Lista de jogadores ordenados por pontuacao.
+     */
     @RequestMapping(method = RequestMethod.GET, value = "/players/{startTime}/{endTime}", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<List<Player>> getPlayers(
             @PathVariable @DateTimeFormat(pattern = "HH:mm:ss") LocalTime startTime,
@@ -42,6 +51,12 @@ public class PlayerController {
         return new ResponseEntity<>(playerList, HttpStatus.OK);
     }
 
+    /**
+     * Prove o ranking completo (de todos os kills registrados pelo sistema)
+     * dos jogadores ordenando por pontuacao (kill - die) de forma decrescente.
+     * 
+     * @return Lista de jogadores ordenados por pontuacao.
+     */
     @RequestMapping(method = RequestMethod.GET, value = "/players", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<List<Player>> getAllPlayers() {
         List<Player> playerList = service.findAllPlayers();

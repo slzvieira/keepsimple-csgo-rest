@@ -10,38 +10,41 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
 
 /**
- * TODO DOCUMENT ME
+ * Retem os detalhes de uma arma (weapon).
  * 
- * @author Sandro
+ * @author Sandro Vieira
  * @version 1.0, 29/abr/2018 - Implementation.
  */
 public class Weapon {
 
+    /** Nome da arma. */
     private String name;
 
+    /** Quantidade de mortes provocadas pela arma. */
     @JsonInclude(Include.NON_EMPTY)
     private Integer kill;
 
     /**
-     * TODO DOCUMENT ME
+     * Construtor default.
      */
     public Weapon() {
         // do nothing
     }
     
     /**
-     * TODO DOCUMENT ME
-     * @param name
+     * Construtor qualificado com o nome da arma.
+     * @param name Nome da arma.
      */
     public Weapon(String name) {
         this.name = name;
     }
 
     /**
-     * TODO DOCUMENT ME
+     * Construtor qualificado com o nome da arma e a quantidade 
+     * de mortes provocadas.
      * 
-     * @param name
-     * @param kill
+     * @param name Nome da arma.
+     * @param kill Quantidade de mortes provocadas.
      */
     public Weapon(String name, Integer kill) {
         this.name = name;
@@ -49,7 +52,7 @@ public class Weapon {
     }
     
     /**
-     * Returns the XXX
+     * Returns the Nome da arma. 
      * @return the name
      */
     public String getName() {
@@ -57,7 +60,7 @@ public class Weapon {
     }
 
     /**
-     * Assigns the XXX
+     * Assigns the Nome da arma. 
      * @param name the name to set
      */
     public void setName(String name) {
@@ -65,7 +68,7 @@ public class Weapon {
     }
 
     /**
-     * Returns the XXX
+     * Returns the Quantidade de mortes provocadas pela arma.
      * @return the kill
      */
     public Integer getKill() {
@@ -73,7 +76,7 @@ public class Weapon {
     }
 
     /**
-     * Assigns the XXX
+     * Assigns the Quantidade de mortes provocadas pela arma.
      * @param kill the kill to set
      */
     public void setKill(Integer kill) {

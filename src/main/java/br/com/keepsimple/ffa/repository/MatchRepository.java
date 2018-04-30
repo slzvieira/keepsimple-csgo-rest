@@ -12,9 +12,9 @@ import org.springframework.stereotype.Repository;
 import br.com.keepsimple.ffa.domain.Match;
 
 /**
- * TODO DOCUMENT ME
+ * Repositorio de partidas.s
  * 
- * @author Sandro
+ * @author Sandro Vieira
  * @version 1.0, 29/abr/2018 - Implementation.
  */
 @Repository

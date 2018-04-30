@@ -16,13 +16,24 @@ import org.springframework.data.repository.query.Param;
 import br.com.keepsimple.ffa.domain.Kill;
 
 /**
- * TODO DOCUMENT ME
+ * Repositorio de kills.
  * 
- * @author Sandro
+ * @author Sandro Vieira
  * @version 1.0, 29/abr/2018 - Implementation.
  */
 public interface KillRepository extends JpaRepository<Kill, Integer> {
 
+    /**
+     * Obtem a lista de kill computadas em um periodo especificado.
+     * 
+     * TODO O metodo esta apresentado algum problema onde nao houve
+     * tempo habil para corrigir. As clausulas >= e <= nao estao
+     * funcionando corretamente. Desculpe! :-(
+     * 
+     * @param startTime Hora de inicio
+     * @param endTime Hora de fim
+     * @return Lista de kills registrados dentro do periodo.
+     */
     @Query("SELECT k FROM Kill k WHERE k.killtime >= :startTime AND k.killtime <= :endTime")
     List<Kill> findByPeriod(@Param("startTime") LocalTime startTime, @Param("endTime") LocalTime endTime);
 }

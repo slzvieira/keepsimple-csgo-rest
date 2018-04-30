@@ -25,39 +25,41 @@ import br.com.keepsimple.ffa.repository.KillRepository;
 import br.com.keepsimple.ffa.repository.MatchRepository;
 
 /**
- * TODO DOCUMENT ME
+ * Centraliza toda a regra de negocio a ser exposta pela camada controladora.
  * 
- * @author Sandro
+ * @author Sandro Vieira
  * @version 1.0, 29/abr/2018 - Implementation.
  */
 @Service
 public class MatchService {
 
+    /** Repositorio de partidas. */
     @Autowired
     private MatchRepository matchRepository;
 
+    /** Repositorio de mortes. */
     @Autowired
     private KillRepository killRepository;
 
     /**
-     * TODO DOCUMENT ME
-     * @param kill
+     * Registra uma morte no sistema.
+     * @param kill Dados da morte.
      */
     public void saveKill(Kill kill) {
         killRepository.save(kill);
     }
 
     /**
-     * TODO DOCUMENT ME
-     * @param match
+     * Registra uma partida no sistema.
+     * @param match Dados da partida.
      */
     public void saveMatch(Match match) {
         matchRepository.save(match);
     }
 
     /**
-     * TODO DOCUMENT ME
-     * @return
+     * Obtem a lista completa de todas as partidas registradas pelo sistema.
+     * @return Lista de partidas.
      */
     public Collection<Match> findAllMatches() {
         return matchRepository.findAll();
@@ -65,48 +67,77 @@ public class MatchService {
     }
 
     /**
-     * TODO DOCUMENT ME
-     * @param id
-     * @return
+     * Obtem os detalhes de uma partida.
+     * @param id ID da partida desejada.
+     * @return Detalhes da partida.
      */
     public Match findMatch(Integer id) {
         // TODO IMPLEMENT ME
         return null;
     }
 
+    /**
+     * Obtem a lista de todas as mortes registradas pelo sistema.
+     * @return Lista de mortes.
+     */
     public List<Kill> findAllKills() {
         return killRepository.findAll();
     }
 
     /**
-     * TODO DOCUMENT ME
-     * @param matchDate
-     * @return
+     * Obtem o ranking dos jogadores registrados no sistema que mataram
+     * ou morreram dentro um periodo especificado.
+     * 
+     * @param startTime Hora inicial
+     * @param endTime Hora final
+     * @return Lista de jogadores ordenada por pontuacao.
      */
     public List<Player> findPlayersByPeriod(LocalTime startTime, LocalTime endTime) {
         List<Kill> killList = killRepository.findByPeriod(startTime, endTime);
         return toPlayerList(killList);
     }
 
+    /**
+     * Obtem a lista de todos os jogadores registrados pelo sistema
+     * bem como a sua pontuacao.
+     * @return Lista de jogadores ordenada por pontuacao.
+     */
     public List<Player> findAllPlayers() {
         List<Kill> killList = killRepository.findAll();
         return toPlayerList(killList);
     }
 
+    /**
+     * Obtem o ranking das armas registradas no sistema que foram
+     * utilizadas em mortes dentro um periodo especificado.
+     * 
+     * @param startTime Hora inicial
+     * @param endTime Hora final
+     * @return Lista de armas ordenada por pontuacao.
+     */
     public List<Weapon> findWeaponsByPeriod(LocalTime startTime, LocalTime endTime) {
         List<Kill> killList = killRepository.findByPeriod(startTime, endTime);
         return toWeaponList(killList);
     }
 
+    /**
+     * Obtem o ranking de todas as armas registradas no sistema que foram
+     * utilizadas em mortes.
+     * 
+     * @return Lista de armas ordenada por pontuacao.
+     */
     public List<Weapon> findAllWeapons() {
         List<Kill> killList = killRepository.findAll();
         return toWeaponList(killList);
     }
 
     /**
-     * Obtem o ranking de jogadores a partir da lista de kills.
-     * @param killCollection
-     * @return
+     * Metodo auxiliar que agrupa os jogadores registrados na lista de
+     * kills especificada, computando a pontuacao de cada um deles
+     * e ordenando.
+     * 
+     * @param killCollection Lista de kills a ser computada.
+     * @return Lista de jogadores participantes na kills informados.
      */
     private List<Player> toPlayerList(Collection<Kill> killCollection) {
 
@@ -121,6 +152,7 @@ public class MatchService {
          */
         for (Kill kill : killCollection) {
 
+            /* Verifica se os players (matador e morto) ja estao presentes no mapa */
             killerPlayer = map.get(kill.getKiller());
             killedPlayer = map.get(kill.getKilled());
 

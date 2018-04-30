@@ -16,9 +16,9 @@ import javax.persistence.Id;
 import com.fasterxml.jackson.annotation.JsonFormat;
 
 /**
- * TODO DOCUMENT ME
+ * Retem os dados de uma morte a ser registada no sistema.
  * 
- * @author Sandro
+ * @author Sandro Vieira
  * @version 1.0, 29/abr/2018 - Implementation.
  */
 @Entity
@@ -46,7 +46,7 @@ public class Kill {
     private String weapon;
 
     /**
-     * Returns the XXX
+     * Returns the ID da morte.
      * @return the id
      */
     public Integer getId() {
@@ -54,7 +54,7 @@ public class Kill {
     }
 
     /**
-     * Assigns the XXX
+     * Assigns the ID da morte.
      * @param id the id to set
      */
     public void setId(Integer id) {
@@ -62,7 +62,7 @@ public class Kill {
     }
 
     /**
-     * Returns the XXX
+     * Returns the ID da partida. 
      * @return the match
      */
     public Integer getMatch() {
@@ -70,7 +70,7 @@ public class Kill {
     }
 
     /**
-     * Assigns the XXX
+     * Assigns the ID da partida. 
      * @param match the match to set
      */
     public void setMatch(Integer match) {
@@ -78,7 +78,7 @@ public class Kill {
     }
 
     /**
-     * Returns the XXX
+     * Returns the Momento da morte.
      * @return the killtime
      */
     public LocalTime getKilltime() {
@@ -86,7 +86,7 @@ public class Kill {
     }
 
     /**
-     * Assigns the XXX
+     * Assigns the Momento da morte.
      * @param killtime the killtime to set
      */
     public void setKilltime(LocalTime killtime) {
@@ -94,7 +94,7 @@ public class Kill {
     }
 
     /**
-     * Returns the XXX
+     * Returns the Jogador que matou. 
      * @return the killer
      */
     public String getKiller() {
@@ -102,7 +102,7 @@ public class Kill {
     }
 
     /**
-     * Assigns the XXX
+     * Assigns the Jogador que matou. 
      * @param killer the killer to set
      */
     public void setKiller(String killer) {
@@ -110,7 +110,7 @@ public class Kill {
     }
 
     /**
-     * Returns the XXX
+     * Returns the Jogador que morreu. 
      * @return the killed
      */
     public String getKilled() {
@@ -118,7 +118,7 @@ public class Kill {
     }
 
     /**
-     * Assigns the XXX
+     * Assigns the Jogador que morreu. 
      * @param killed the killed to set
      */
     public void setKilled(String killed) {
@@ -126,7 +126,7 @@ public class Kill {
     }
 
     /**
-     * Returns the XXX
+     * Returns the Arma utilizada. 
      * @return the weapon
      */
     public String getWeapon() {
@@ -134,7 +134,7 @@ public class Kill {
     }
 
     /**
-     * Assigns the XXX
+     * Assigns the Arma utilizada. 
      * @param weapon the weapon to set
      */
     public void setWeapon(String weapon) {
