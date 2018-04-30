@@ -3,12 +3,12 @@
 
 	<modelVersion>4.0.0</modelVersion>
 
-	<groupId>br.com.slzvieira</groupId>
-	<artifactId>slzvieira-spring-boot</artifactId>
+	<groupId>br.com.keepsimple.ffa</groupId>
+	<artifactId>ffa-csgo-rest</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<packaging>war</packaging>
 
-	<name>slzvieira-spring-boot</name>
+	<name>ffa-csgo-rest</name>
 	<url>http://maven.apache.org</url>
 
 	<properties>
@@ -66,7 +66,6 @@
 
 	</dependencies>
 
-	<!-- Package as an executable jar -->
 	<build>
 		<plugins>
 			<plugin>

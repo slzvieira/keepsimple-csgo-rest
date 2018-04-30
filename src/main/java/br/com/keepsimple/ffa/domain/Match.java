@@ -10,10 +10,11 @@ import java.time.ZonedDateTime;
 import java.util.List;
 
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Transient;
+
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonInclude.Include;
 
 /**
  * Retem os detalhes de uma partida.
@@ -26,7 +27,6 @@ public class Match {
 
     /** ID da partida. */
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer match;
 
     /** Data/hora de inicio. */
@@ -37,7 +37,18 @@ public class Match {
 
     /** List de jogadores participantes. */
     @Transient
+    @JsonInclude(Include.NON_EMPTY)
     private List<Player> players;
+
+    /** Quantidade de jogadores */
+    @Transient
+    @JsonInclude(Include.NON_EMPTY)
+    private Integer numberPlayers;
+
+    /** Nome do campeao da partida. */
+    @Transient
+    @JsonInclude(Include.NON_EMPTY)
+    private String championName;
 
     /**
      * Returns the ID da partida.
@@ -102,4 +113,36 @@ public class Match {
     public void setPlayers(List<Player> players) {
         this.players = players;
     }
+
+	/**
+	 * Returns the Quantidade de jogadores.
+	 * @return the numberPlayers
+	 */
+	public Integer getNumberPlayers() {
+		return numberPlayers;
+	}
+
+	/**
+	 * Assigns the Quantidade de jogadores.
+	 * @param numberPlayers the numberPlayers to set
+	 */
+	public void setNumberPlayers(Integer numberPlayers) {
+		this.numberPlayers = numberPlayers;
+	}
+
+	/**
+	 * Return the Nome do campeao da partida.
+	 * @return the championName
+	 */
+	public String getChampionName() {
+		return championName;
+	}
+
+	/**
+	 * Assigns the Nome do campeao da partida.
+	 * @param championName the championName to set
+	 */
+	public void setChampionName(String championName) {
+		this.championName = championName;
+	}
 }

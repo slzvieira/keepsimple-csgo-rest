@@ -7,11 +7,13 @@
 package br.com.keepsimple.ffa.service;
 
 import java.time.LocalTime;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.function.Function;
 import java.util.stream.Collectors;
 
 import org.apache.commons.logging.Log;
@@ -69,9 +71,44 @@ public class MatchService {
      * @return Lista de partidas.
      */
     public Collection<Match> findAllMatches() {
-        log.info("Obtendo detalhes do match...");
-        return matchRepository.findAll();
-        // TODO Implementar quantidade de jogadores e jogador campeao
+
+    	log.info("Obtendo lista de matches...");
+        List<Match> matchList = matchRepository.findAll();
+
+        /* Gera um mapa de matches chaveado pelo id */
+		Map<Integer, Match> matchMap = matchList.stream()
+				.collect(Collectors.toMap(Match::getMatch, Function.identity()));
+
+    	log.info("Obtendo lista de kills...");
+        List<Kill> killList = killRepository.findAll();
+
+        log.info("Montando estatisticas da partida...");
+        /* Segrega os kills por partida (match) */
+		Map<Integer, List<Kill>> statisticMap = killList.stream().collect(Collectors.groupingBy(Kill::getMatch));
+
+		/* Para cada grupo de kills registrado em uma partida, coleta os dados estatisticos da partida */
+		for (Map.Entry<Integer, List<Kill>> entry : statisticMap.entrySet()) {
+
+			Match match = matchMap.get(entry.getKey());
+
+			/* Para kills registrados pelo sistema sem uma partida associada, gera um match sem datas */
+			if (match == null) {
+				match = new Match();
+				match.setMatch(entry.getKey());
+				matchMap.put(entry.getKey(), match);
+			}
+
+			/* Obtem a lista de jogadores ordenada por pontuacao */
+			List<Player> playerList = toPlayerList(entry.getValue());
+			match.setNumberPlayers(playerList.size());
+
+			/* O primeiro player (indice 0) eh o campeao. */
+			if (!playerList.isEmpty()) {
+				match.setChampionName(playerList.get(0).getName());
+			}
+		}
+
+        return matchList;
     }
 
     /**
@@ -170,6 +207,10 @@ public class MatchService {
         Map<String, Player> map = new HashMap<>();
         Player killerPlayer;
         Player killedPlayer;
+
+        if (killCollection == null) {
+        	return new ArrayList<>();
+        }
 
         /*
          * Para cada kill, contabiliza o matador e o morto
