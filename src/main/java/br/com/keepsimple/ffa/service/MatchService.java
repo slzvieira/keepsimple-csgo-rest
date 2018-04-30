@@ -108,7 +108,7 @@ public class MatchService {
 			}
 		}
 
-        return matchList;
+        return matchMap.values();
     }
 
     /**
