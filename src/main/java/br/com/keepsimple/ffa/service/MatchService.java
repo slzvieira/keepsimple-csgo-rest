@@ -58,12 +58,30 @@ public class MatchService {
     }
 
     /**
+     * Registra um conjunto (Iterable) de mortes no sistema.
+     * @param kill Dados da morte.
+     */
+    public void saveKills(Iterable<Kill> kills) {
+        log.info("Registrando kills...");
+        killRepository.save(kills);
+    }
+
+    /**
      * Registra uma partida no sistema.
      * @param match Dados da partida.
      */
     public void saveMatch(Match match) {
         log.info("Registrando match...");
         matchRepository.save(match);
+    }
+
+    /**
+     * Registra uma colecao (Iterable) de partidas no sistema.
+     * @param matches Dados das partidas.
+     */
+    public void saveMatches(Iterable<Match> matches) {
+        log.info("Registrando match...");
+        matchRepository.save(matches);
     }
 
     /**

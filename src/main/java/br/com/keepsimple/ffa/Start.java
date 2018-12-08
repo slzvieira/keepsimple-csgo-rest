@@ -6,8 +6,8 @@
  */
 package br.com.keepsimple.ffa;
 
-import java.io.BufferedReader;
 import java.io.InputStreamReader;
+import java.util.List;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -18,6 +18,7 @@ import org.springframework.boot.builder.SpringApplicationBuilder;
 import org.springframework.boot.web.support.SpringBootServletInitializer;
 import org.springframework.context.annotation.Bean;
 
+import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 
@@ -79,41 +80,20 @@ public class Start extends SpringBootServletInitializer {
 
             /*
              * Realiza a carga do arquivo wrangle.json
-             * efetuando o parse de um kill por linha de texto
              */
-            try (BufferedReader reader = new BufferedReader(
-                new InputStreamReader(Start.class.getResourceAsStream(WRANGLE_RESOURCE)))) {
-
-                Kill kill;
-
-                while (reader.ready()) {
-                    kill = mapper.readValue(reader.readLine(), Kill.class);
-                    service.saveKill(kill);
-                }
+            try (InputStreamReader inputStream = new InputStreamReader(Start.class.getResourceAsStream(WRANGLE_RESOURCE))) {
+                List<Kill> killList = mapper.readValue(inputStream, new TypeReference<List<Kill>>() {});
+                service.saveKills(killList);
             }
 
             log.info(WRANGLE_RESOURCE + " carregado com sucesso.");
 
             /*
              * Realiza a carga do arquivo matches.json
-             * efetuando o parse de um match a cada duas linhas de texto
              */
-            try (BufferedReader reader = new BufferedReader(
-                new InputStreamReader(Start.class.getResourceAsStream(MATCHES_RESOURCE)))) {
-
-                Match match;
-                StringBuilder builder = null;
-                int count = 0;
-
-                while (reader.ready()) {
-                    if (++count % 2 == 1) {
-                        builder = new StringBuilder(reader.readLine());
-                    } else {
-                        builder.append(reader.readLine());
-                        match = mapper.readValue(builder.toString(), Match.class);
-                        service.saveMatch(match);
-                    }
-                }
+            try (InputStreamReader inputStream = new InputStreamReader(Start.class.getResourceAsStream(MATCHES_RESOURCE))) {
+                List<Match> matchList = mapper.readValue(inputStream, new TypeReference<List<Match>>() {});
+                service.saveMatches(matchList);
             }
 
             log.info(MATCHES_RESOURCE + " carregado com sucesso.");
