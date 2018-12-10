@@ -21,8 +21,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 
-import br.com.keepsimple.ffa.client.CEPServiceClient;
-import br.com.keepsimple.ffa.domain.Endereco;
 import br.com.keepsimple.ffa.domain.Kill;
 import br.com.keepsimple.ffa.service.MatchService;
 
@@ -42,9 +40,6 @@ public class KillController {
     @Autowired
     private MatchService service;
 
-    @Autowired
-    private CEPServiceClient cepServiceClient;
-
     /**
      * Prove a lista completa de todos os kills registrados no sistema.
      * Embora este metodo nao tenha sido solicitado, o mesmo foi necessario
@@ -56,11 +51,7 @@ public class KillController {
     public ResponseEntity<List<Kill>> getAllKills() {
 
         log.debug("KillController#getAllKills() - Inicio");
-        
-        Endereco endereco = cepServiceClient.buscarEndereco("23530000");
-        
         List<Kill> killList = service.findAllKills();
-        killList.stream().forEach(k -> k.setKiller(k.getKiller() + " - " + endereco.getLogradouro()));
         log.debug("KillController#getAllKills() - Fim");
         return new ResponseEntity<>(killList, HttpStatus.OK);
     }

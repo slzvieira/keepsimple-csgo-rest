@@ -1,6 +1,6 @@
 package br.com.keepsimple.ffa.domain;
 
-public class Endereco {
+public class Address {
 
     private String cep;
     private String logradouro;

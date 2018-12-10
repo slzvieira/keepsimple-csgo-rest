@@ -8,7 +8,7 @@ import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 
-import br.com.keepsimple.ffa.domain.Endereco;
+import br.com.keepsimple.ffa.domain.Address;
 
 /**
  * @author alessandro
@@ -17,7 +17,7 @@ import br.com.keepsimple.ffa.domain.Endereco;
 public interface CEPServiceClient {
 
     @GetMapping(path = "/{cep}/json", consumes = MediaType.APPLICATION_JSON_VALUE)
-    Endereco buscarEndereco(@PathVariable("cep") String cep);
+    Address buscarEndereco(@PathVariable("cep") String cep);
 }
 
 /*

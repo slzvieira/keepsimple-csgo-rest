@@ -25,6 +25,7 @@ import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 
 import br.com.keepsimple.ffa.domain.Kill;
 import br.com.keepsimple.ffa.domain.Match;
+import br.com.keepsimple.ffa.domain.Player;
 import br.com.keepsimple.ffa.service.MatchService;
 
 /**
@@ -43,6 +44,9 @@ public class Start extends SpringBootServletInitializer {
 
     /** Arquivo JSON contendo as disputas (kills). */
     private static final String WRANGLE_RESOURCE = "/wrangle.json";
+
+    /** Arquivo JSON contendo os players e seus ceps. */
+    private static final String PLAYERS_RESOURCE = "/players.json";
 
     /** Log da aplicacao (Commons Logging). */
     private static final Log log = LogFactory.getLog(Start.class);
@@ -88,7 +92,8 @@ public class Start extends SpringBootServletInitializer {
              * Realiza a carga do arquivos wrangle.json e matches.json
              */
             try (InputStreamReader wrangleStream = new InputStreamReader(Start.class.getResourceAsStream(WRANGLE_RESOURCE));
-                            InputStreamReader matchesStream = new InputStreamReader(Start.class.getResourceAsStream(MATCHES_RESOURCE))) {
+                            InputStreamReader matchesStream = new InputStreamReader(Start.class.getResourceAsStream(MATCHES_RESOURCE));
+                            InputStreamReader playersStream = new InputStreamReader(Start.class.getResourceAsStream(PLAYERS_RESOURCE))) {
 
                 List<Kill> killList = mapper.readValue(wrangleStream, new TypeReference<List<Kill>>() {});
                 service.saveKills(killList);
@@ -96,6 +101,10 @@ public class Start extends SpringBootServletInitializer {
 
                 List<Match> matchList = mapper.readValue(matchesStream, new TypeReference<List<Match>>() {});
                 service.saveMatches(matchList);
+                log.info(MATCHES_RESOURCE + " carregado com sucesso.");
+
+                List<Player> playerList = mapper.readValue(playersStream, new TypeReference<List<Player>>() {});
+                service.savePlayers(playerList);
                 log.info(MATCHES_RESOURCE + " carregado com sucesso.");
             }
         };
