@@ -16,6 +16,7 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.builder.SpringApplicationBuilder;
 import org.springframework.boot.web.support.SpringBootServletInitializer;
+import org.springframework.cloud.netflix.feign.EnableFeignClients;
 import org.springframework.context.annotation.Bean;
 
 import com.fasterxml.jackson.core.type.TypeReference;
@@ -34,6 +35,7 @@ import br.com.keepsimple.ffa.service.MatchService;
  * @version 1.0, 29/abr/2018 - Implementation.
  */
 @SpringBootApplication
+@EnableFeignClients
 public class Start extends SpringBootServletInitializer {
 
     /** Arquivo JSON contendo as partidas (matches). */
