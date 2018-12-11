@@ -19,18 +19,3 @@ public interface CEPServiceClient {
     @GetMapping(path = "/{cep}/json", consumes = MediaType.APPLICATION_JSON_VALUE)
     Address buscarEndereco(@PathVariable("cep") String cep);
 }
-
-/*
-@FeignClient(name = "vv-servicos", url = "${servicos.url}")
-public interface ServicosServiceClient {
-
-    @RequestMapping(method = RequestMethod.GET, path = "/seguros/{sku}", consumes = MediaType.APPLICATION_JSON_VALUE)
-    SeguroResponse buscarSeguro(@PathVariable("sku") final Long sku,
-        @RequestParam(name = "seguradora", required = false) final Integer seguradora,
-        @RequestParam(name = "classificacao", required = false) final Integer classificacao);
-
-    @PostMapping(path = "/servicos/fechamento", consumes = MediaType.APPLICATION_JSON_VALUE)
-    FechamentoServicosResponse fechamento(@RequestBody final FechamentoServicosRequest request);
-
-}
-*/
