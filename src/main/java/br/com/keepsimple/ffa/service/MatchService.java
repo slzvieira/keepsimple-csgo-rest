@@ -21,12 +21,14 @@ import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import br.com.keepsimple.ffa.client.CEPServiceClient;
 import br.com.keepsimple.ffa.domain.Kill;
 import br.com.keepsimple.ffa.domain.Match;
 import br.com.keepsimple.ffa.domain.Player;
 import br.com.keepsimple.ffa.domain.Weapon;
 import br.com.keepsimple.ffa.repository.KillRepository;
 import br.com.keepsimple.ffa.repository.MatchRepository;
+import br.com.keepsimple.ffa.repository.PlayerRepository;
 
 /**
  * Centraliza toda a regra de negocio a ser exposta pela camada controladora.
@@ -48,6 +50,13 @@ public class MatchService {
     @Autowired
     private KillRepository killRepository;
 
+    /** Repositorio de players. */
+    @Autowired
+    private PlayerRepository playerRepository;
+
+    @Autowired
+    private CEPServiceClient cepServiceClient;
+    
     /**
      * Registra uma morte no sistema.
      * @param kill Dados da morte.
@@ -80,8 +89,26 @@ public class MatchService {
      * @param matches Dados das partidas.
      */
     public void saveMatches(Iterable<Match> matches) {
-        log.info("Registrando match...");
+        log.info("Registrando matches...");
         matchRepository.save(matches);
+    }
+
+    /**
+     * Registra um player no sistema.
+     * @param player Dados do player.
+     */
+    public void savePlayer(Player player) {
+        log.info("Registrando player...");
+        playerRepository.save(player);
+    }
+
+    /**
+     * Registra um player no sistema.
+     * @param player Dados do player.
+     */
+    public void savePlayers(Iterable<Player> players) {
+        log.info("Registrando players...");
+        playerRepository.save(players);
     }
 
     /**
@@ -193,7 +220,9 @@ public class MatchService {
         List<Kill> killList = killRepository.findAll();
 
         log.info("Computando players.");
-        return toPlayerList(killList);
+        List<Player> playerList = toPlayerList(killList);
+
+        return playerList;
     }
 
     /**
@@ -276,8 +305,19 @@ public class MatchService {
          * Coleta os valores do mapa (players acumulados por nome),
          * ordena pelo score e converte para lista
          */
-        return map.values().stream().sorted(Comparator.comparing(Player::getScore).reversed())
+        List<Player> playerList = map.values().stream().sorted(Comparator.comparing(Player::getScore).reversed())
             .collect(Collectors.toList());
+        
+        log.info("Obtendo os ceps dos players mapeado por nome");
+        Map<String, String> addressMap = playerRepository.findAll()
+                                                         .stream()
+                                                         .collect(Collectors.toMap(Player::getName, Player::getCep));
+
+        playerList.stream()
+                  .filter(player -> addressMap.containsKey(player.getName()))
+                  .forEach(player -> player.setAddress(cepServiceClient.buscarEndereco(addressMap.get(player.getName()))));
+
+        return playerList;
     }
 
     /**

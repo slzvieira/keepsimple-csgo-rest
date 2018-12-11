@@ -6,6 +6,10 @@
  */
 package br.com.keepsimple.ffa.domain;
 
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.Transient;
+
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
 
@@ -15,10 +19,19 @@ import com.fasterxml.jackson.annotation.JsonInclude.Include;
  * @author Sandro Vieira
  * @version 1.0, 29/abr/2018 - Implementation.
  */
+@Entity
 public class Player {
 
     /** Nome do jogador. */
+    @Id
     private String name;
+
+    /** Codigo postal (CEP) do jogador. */
+    private String cep;
+
+    /** Endereco do player */
+    @Transient
+    private Address address;
 
     /** Quantidade de mortes provocadas pelo jogador. */
     @JsonInclude(Include.NON_EMPTY)
@@ -75,6 +88,38 @@ public class Player {
      */
     public void setName(String name) {
         this.name = name;
+    }
+
+    /**
+     * Retorna o Codigo postal (CEP) do jogador.
+     * @return the cep
+     */
+    public String getCep() {
+        return cep;
+    }
+
+    /**
+     * Assigns the Codigo postal (CEP) do jogador.
+     * @param cep the cep to set
+     */
+    public void setCep(String cep) {
+        this.cep = cep;
+    }
+
+    /**
+     * Obtem o Endereco do player.
+     * @return
+     */
+    public Address getAddress() {
+        return address;
+    }
+
+    /**
+     * Assinala o Endereco do player.
+     * @param address
+     */
+    public void setAddress(Address address) {
+        this.address = address;
     }
 
     /**
