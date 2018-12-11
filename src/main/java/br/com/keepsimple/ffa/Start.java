@@ -70,6 +70,7 @@ public class Start extends SpringBootServletInitializer {
      * @see org.springframework.boot.web.support.SpringBootServletInitializer#configure(
      *      org.springframework.boot.builder.SpringApplicationBuilder)
      */
+    @Override
     protected SpringApplicationBuilder configure(SpringApplicationBuilder application) {
         return application.sources(Start.class);
     }
